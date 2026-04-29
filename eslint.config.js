@@ -15,6 +15,28 @@ export default [
     },
   },
   {
+    files: ['src/shared/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['#/app/*', '#/features/*', '#/routes/*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/features/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['#/app/*', '#/routes/*'],
+        },
+      ],
+    },
+  },
+  {
     ignores: ['eslint.config.js', 'prettier.config.js'],
   },
 ]
