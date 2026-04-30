@@ -1,13 +1,10 @@
 import * as Sentry from '@sentry/tanstackstart-react'
 import { useLoaderData, useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
+import { desc } from 'drizzle-orm'
 
-import { getNeonClient } from '#/shared/db/neon/client'
-
-type NeonTodo = {
-  id: number
-  title: string
-}
+import { db } from '#/shared/db/drizzle'
+import { todos } from '#/shared/db/drizzle/schema'
 
 const getTodos = createServerFn({
   method: 'GET',
@@ -17,15 +14,10 @@ const getTodos = createServerFn({
       name: 'Load Neon todos',
       op: 'db.query',
     },
-    async () => {
-      const client = await getNeonClient()
-
-      if (!client) {
-        return undefined
-      }
-
-      return (await client.query('SELECT * FROM todos')) as NeonTodo[]
-    },
+    async () =>
+      db.query.todos.findMany({
+        orderBy: [desc(todos.createdAt)],
+      }),
   )
 })
 
@@ -40,26 +32,18 @@ const insertTodo = createServerFn({
         op: 'db.insert',
       },
       async () => {
-        const client = await getNeonClient()
-
-        if (!client) {
-          return undefined
-        }
-
-        await client.query('INSERT INTO todos (title) VALUES ($1)', [data.title])
+        await db.insert(todos).values({ title: data.title })
         return { success: true }
       },
     )
   })
 
 export async function loadNeonTodos() {
-  const todos = await getTodos()
-
-  return { todos }
+  return { items: await getTodos() }
 }
 
 export function NeonTodosPage() {
-  const { todos } = useLoaderData({ from: '/demo/neon' })
+  const { items } = useLoaderData({ from: '/demo/neon' })
   const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -68,10 +52,6 @@ export function NeonTodosPage() {
     const data = Object.fromEntries(formData)
     await insertTodo({ data: { title: data.title as string } })
     router.invalidate()
-  }
-
-  if (!todos) {
-    return <DBConnectionError />
   }
 
   return (
@@ -100,7 +80,7 @@ export function NeonTodosPage() {
         </div>
         <h1 className="mb-4 text-2xl font-bold">Todos</h1>
         <ul className="mb-6 space-y-3">
-          {todos.map((todo) => (
+          {items.map((todo) => (
             <li
               key={todo.id}
               className="group cursor-pointer rounded-lg border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-white/20"
@@ -127,55 +107,24 @@ export function NeonTodosPage() {
             Add Todo
           </button>
         </form>
-      </div>
-    </div>
-  )
-}
 
-function DBConnectionError() {
-  return (
-    <div className="space-y-6 text-center">
-      <div className="mb-4 flex items-center justify-center">
-        <svg
-          className="h-12 w-12 text-amber-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-          />
-        </svg>
-      </div>
-      <h2 className="mb-4 text-2xl font-bold">Database Connection Issue</h2>
-      <div className="mb-6 text-lg">The Neon database is not connected.</div>
-      <div className="mx-auto max-w-xl rounded-lg bg-black/30 p-6">
-        <h3 className="mb-4 text-lg font-semibold">Required Steps to Fix:</h3>
-        <ul className="space-y-4 text-left">
-          <li className="flex items-start">
-            <span className="mr-3 inline-flex h-8 min-h-8 w-8 min-w-8 items-center justify-center rounded-full bg-amber-500 font-bold text-black">
-              1
-            </span>
-            <div>
-              Use the <code className="rounded bg-black/30 px-2 py-1">db/init.sql</code>{' '}
-              file to create the database
-            </div>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-3 inline-flex h-8 min-h-8 w-8 min-w-8 items-center justify-center rounded-full bg-amber-500 font-bold text-black">
-              2
-            </span>
-            <div>
-              Set the{' '}
-              <code className="rounded bg-black/30 px-2 py-1">DATABASE_URL</code>{' '}
-              environment variable to the connection string of your Neon database
-            </div>
-          </li>
-        </ul>
+        <div className="mt-8 rounded-lg bg-black/30 p-6 text-left">
+          <h3 className="mb-3 text-lg font-semibold">Neon-only setup</h3>
+          <ul className="space-y-3 text-sm text-white/80">
+            <li>
+              Set{' '}
+              <code className="rounded bg-black/30 px-2 py-1">
+                DATABASE_URL
+              </code>{' '}
+              to a <span className="font-semibold text-emerald-300">Neon</span>{' '}
+              connection string.
+            </li>
+            <li>
+              Drizzle and Drizzle Kit now reject non-Neon hosts, so localhost
+              configs fail fast.
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   )

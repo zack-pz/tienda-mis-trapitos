@@ -1,14 +1,13 @@
 {
-	"$schema": "https://opencode.ai/config.json",
-	"mcp":{
-		"postgresql":{
-			"type": "local",
-			"command": [
-				"npx",
-				"-y",
-				"@modelcontextprotocol/server-postgres",
-				"postgresql://mistrapitos:mistrapitos@localhost:5432/mistrapitos"
-			]
-		}
-	}
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "postgresql": {
+      "type": "local",
+      "command": [
+        "sh",
+        "-c",
+        "npx -y @modelcontextprotocol/server-postgres \"$DATABASE_URL\""
+      ]
+    }
+  }
 }

@@ -1,4 +1,4 @@
-Welcome to your new TanStack Start app! 
+Welcome to your new TanStack Start app!
 
 # Getting Started
 
@@ -40,7 +40,6 @@ If you prefer not to use Tailwind CSS:
 
 ## Linting & Formatting
 
-
 This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
 
 ```bash
@@ -49,7 +48,6 @@ npm run format
 npm run check
 ```
 
-
 ## Shadcn
 
 Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
@@ -57,7 +55,6 @@ Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
 ```bash
 pnpm dlx shadcn@latest add button
 ```
-
 
 ## T3Env
 
@@ -68,14 +65,10 @@ pnpm dlx shadcn@latest add button
 ### Usage
 
 ```ts
-import { env } from "#/env";
+import { env } from '#/env'
 
-console.log(env.VITE_APP_TITLE);
+console.log(env.VITE_APP_TITLE)
 ```
-
-
-
-
 
 ## Setting up Better Auth
 
@@ -92,24 +85,22 @@ console.log(env.VITE_APP_TITLE);
 Better Auth can work in stateless mode, but to persist user data, add a database:
 
 ```typescript
-// src/lib/auth.ts
-import { betterAuth } from "better-auth";
-import { Pool } from "pg";
+// src/shared/db/drizzle/index.ts
+import { neon } from '@neondatabase/serverless'
+import { drizzle } from 'drizzle-orm/neon-http'
 
-export const auth = betterAuth({
-  database: new Pool({
-    connectionString: process.env.DATABASE_URL,
-  }),
-  // ... rest of config
-});
+const sql = neon(process.env.DATABASE_URL!)
+
+export const db = drizzle({ client: sql })
 ```
+
+Use a Neon connection string in `DATABASE_URL`. The project is configured to reject non-Neon hosts.
 
 Then run migrations:
 
 ```bash
 npx -y @better-auth/cli migrate
 ```
-
 
 ## Setting up PostHog
 
@@ -121,7 +112,6 @@ npx -y @better-auth/cli migrate
 
 - `VITE_POSTHOG_HOST` - Set this if you're using PostHog Cloud EU (`https://eu.i.posthog.com`) or self-hosting
 
-
 ## Setting up Neon
 
 When running the `dev` command, `vite-plugin-neon-new` will identify there is not a database setup. It will then create and seed a claimable database.
@@ -130,8 +120,6 @@ It is the same process as [Neon Launchpad](https://neon.new).
 
 > [!IMPORTANT]  
 > Claimable databases expire in 72 hours.
-
-
 
 ## Routing
 
@@ -169,7 +157,7 @@ Now that you have two routes you can use a `Link` component to navigate between 
 To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
 
 ```tsx
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router'
 ```
 
 Then anywhere in your JSX you can use it like so:
@@ -237,11 +225,11 @@ const getServerTime = createServerFn({
 // Use in a component
 function MyComponent() {
   const [time, setTime] = useState('')
-  
+
   useEffect(() => {
     getServerTime().then(setTime)
   }, [])
-  
+
   return <div>Server time: {time}</div>
 }
 ```
