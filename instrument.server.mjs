@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/tanstackstart-react'
+import { serverEnv } from './env.server.mjs'
 
-const sentryDsn = import.meta.env?.VITE_SENTRY_DSN ?? process.env.VITE_SENTRY_DSN
+const sentryDsn = import.meta.env?.VITE_SENTRY_DSN ?? serverEnv.VITE_SENTRY_DSN
 
 if (!sentryDsn) {
   console.warn('VITE_SENTRY_DSN is not defined. Sentry is not running.')

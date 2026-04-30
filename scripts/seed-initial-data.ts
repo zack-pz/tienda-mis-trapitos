@@ -1,7 +1,6 @@
-import 'dotenv/config'
-
 import { eq } from 'drizzle-orm'
 
+import { serverEnv } from '#/env.server'
 import { auth } from '#/features/auth/server/auth'
 import { db } from '#/shared/db/drizzle'
 import {
@@ -102,9 +101,9 @@ async function seedStockLocation() {
 }
 
 async function seedSuperAdmin() {
-  const email = process.env.SEED_SUPER_ADMIN_EMAIL?.trim()
-  const password = process.env.SEED_SUPER_ADMIN_PASSWORD?.trim()
-  const name = process.env.SEED_SUPER_ADMIN_NAME?.trim() || 'Super Admin'
+  const email = serverEnv.SEED_SUPER_ADMIN_EMAIL?.trim()
+  const password = serverEnv.SEED_SUPER_ADMIN_PASSWORD?.trim()
+  const name = serverEnv.SEED_SUPER_ADMIN_NAME?.trim() || 'Super Admin'
 
   if (!email && !password) {
     console.log(

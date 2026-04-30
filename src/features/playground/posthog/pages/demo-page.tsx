@@ -2,10 +2,12 @@ import { usePostHog } from '@posthog/react'
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 
+import { env } from '#/env'
+
 export function PostHogDemoPage() {
   const posthog = usePostHog()
   const [eventCount, setEventCount] = useState(0)
-  const posthogKey = import.meta.env.VITE_POSTHOG_KEY
+  const posthogKey = env.VITE_POSTHOG_KEY
   const isConfigured = Boolean(posthogKey) && posthogKey !== 'phc_xxx'
 
   const trackEvent = (

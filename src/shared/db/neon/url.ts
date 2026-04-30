@@ -1,12 +1,12 @@
+import { serverEnv } from '#/env.server'
+
 const neonHostPatterns = [/\.neon\.tech$/i, /\.neon\.build$/i]
 
 function isNeonHostname(hostname: string) {
   return neonHostPatterns.some((pattern) => pattern.test(hostname))
 }
 
-export function getNeonDatabaseUrl(env: NodeJS.ProcessEnv = process.env) {
-  const databaseUrl = env.DATABASE_URL
-
+export function getNeonDatabaseUrl(databaseUrl: string = serverEnv.DATABASE_URL) {
   if (!databaseUrl) {
     throw new Error(
       'DATABASE_URL is required and must point to a Neon Postgres database.',

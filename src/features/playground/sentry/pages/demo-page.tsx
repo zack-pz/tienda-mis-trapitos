@@ -3,6 +3,8 @@ import * as Sentry from '@sentry/tanstackstart-react'
 import { createServerFn } from '@tanstack/react-start'
 import { useEffect, useState } from 'react'
 
+import { env } from '#/env'
+
 const badServerFunc = createServerFn({
   method: 'GET',
 }).handler(async () => {
@@ -268,7 +270,7 @@ export function SentryDemoPage() {
   const [sentryConfigured, setSentryConfigured] = useState<boolean | null>(null)
 
   useEffect(() => {
-    const hasDsn = !!import.meta.env.VITE_SENTRY_DSN
+    const hasDsn = !!env.VITE_SENTRY_DSN
     setSentryConfigured(hasDsn)
   }, [])
 
