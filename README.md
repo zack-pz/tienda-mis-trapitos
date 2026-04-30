@@ -137,6 +137,25 @@ It is the same process as [Neon Launchpad](https://neon.new).
 
 This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
 
+## Architecture
+
+This project now follows a modular structure based on features:
+
+```txt
+src/
+  app/       # Shell, providers, router context, app-level wiring
+  routes/    # Thin TanStack route adapters only
+  features/  # Business and playground modules grouped by feature
+  shared/    # Reusable UI, DB clients, utilities, cross-feature primitives
+```
+
+### Boundary rules
+
+- `src/routes` should stay thin: route declarations, loaders, and server handlers wiring only.
+- `src/features` can depend on `src/shared`, but not on `src/app` or `src/routes`.
+- `src/shared` must remain framework-agnostic business-wise and cannot depend on `src/features`.
+- App shell concerns like layout, providers, and devtools live in `src/app`.
+
 ### Adding A Route
 
 To add a new route to your application just add a new file in the `./src/routes` directory.
