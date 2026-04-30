@@ -339,3 +339,11 @@ Este PRD se considera válido si permite pasar a las siguientes etapas:
 - definición de backlog,
 - priorización de MVP,
 - planificación técnica por módulos.
+
+---
+
+## 18. Documentos derivados
+
+- [MVP Backlog](./MVP-BACKLOG.md)
+- [Data Model](./DATA-MODEL.md)
+- [Architecture](./ARCHITECTURE.md)
