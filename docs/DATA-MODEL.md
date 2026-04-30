@@ -110,19 +110,19 @@ erDiagram
 
 Estas tablas serán administradas por Better Auth:
 
-- `auth_users`
-- `auth_sessions`
-- `auth_accounts`
-- `auth_verifications`
+- `user`
+- `session`
+- `account`
+- `verification`
 
-> El nombre exacto puede variar según Better Auth, pero el concepto es ese. El dominio de negocio NO debe acoplarse de forma caótica a esos detalles.
+> En la implementación actual del proyecto se adopta el naming default de Better Auth. El dominio de negocio NO debe acoplarse de forma caótica a esos detalles.
 
 #### customer_profiles
 
 | Campo | Tipo | Notas |
 | --- | --- | --- |
 | id | uuid | PK |
-| user_id | uuid | FK a auth user, único |
+| auth_user_id | text | FK a `user.id`, único |
 | first_name | text | |
 | last_name | text | |
 | phone | text | nullable |
@@ -135,7 +135,7 @@ Estas tablas serán administradas por Better Auth:
 | Campo | Tipo | Notas |
 | --- | --- | --- |
 | id | uuid | PK |
-| user_id | uuid | FK a auth user, único |
+| auth_user_id | text | FK a `user.id`, único |
 | role | enum | `super_admin`, `admin_comercial`, `operador_inventario`, `compras`, `atencion_ventas` |
 | is_active | boolean | default true |
 | created_at | timestamptz | |

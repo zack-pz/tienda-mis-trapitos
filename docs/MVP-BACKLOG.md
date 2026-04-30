@@ -316,3 +316,9 @@ Tomar este backlog y convertirlo en:
 1. **tickets de implementación**;
 2. **modelo de datos físico con Drizzle**;
 3. **roadmap por iteraciones**.
+
+### Artefactos derivados
+
+- [Technical Tickets](./TECHNICAL-TICKETS.md)
+- [Data Model](./DATA-MODEL.md)
+- [Architecture](./ARCHITECTURE.md)

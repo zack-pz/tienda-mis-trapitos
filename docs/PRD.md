@@ -345,5 +345,6 @@ Este PRD se considera válido si permite pasar a las siguientes etapas:
 ## 18. Documentos derivados
 
 - [MVP Backlog](./MVP-BACKLOG.md)
+- [Technical Tickets](./TECHNICAL-TICKETS.md)
 - [Data Model](./DATA-MODEL.md)
 - [Architecture](./ARCHITECTURE.md)
