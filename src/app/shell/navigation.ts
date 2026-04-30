@@ -1,6 +1,7 @@
 export const primaryNavigation = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
+  { label: 'Admin', to: '/admin/categories' },
 ] as const
 
 export const demoNavigation = [

@@ -20,6 +20,8 @@ import { Route as DemoNeonRouteImport } from './routes/demo/neon'
 import { Route as DemoMcpTodosRouteImport } from './routes/demo/mcp-todos'
 import { Route as DemoDrizzleRouteImport } from './routes/demo/drizzle'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
+import { Route as AdminProductsRouteImport } from './routes/admin/products'
+import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
@@ -81,6 +83,16 @@ const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
   path: '/demo/better-auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminProductsRoute = AdminProductsRouteImport.update({
+  id: '/admin/products',
+  path: '/admin/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/admin/categories',
+  path: '/admin/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
   id: '/demo/sentry/testing',
   path: '/demo/sentry/testing',
@@ -111,6 +123,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/mcp': typeof McpRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/products': typeof AdminProductsRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/drizzle': typeof DemoDrizzleRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
@@ -129,6 +143,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/mcp': typeof McpRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/products': typeof AdminProductsRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/drizzle': typeof DemoDrizzleRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
@@ -148,6 +164,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/mcp': typeof McpRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/products': typeof AdminProductsRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/drizzle': typeof DemoDrizzleRoute
   '/demo/mcp-todos': typeof DemoMcpTodosRoute
@@ -168,6 +186,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/mcp'
+    | '/admin/categories'
+    | '/admin/products'
     | '/demo/better-auth'
     | '/demo/drizzle'
     | '/demo/mcp-todos'
@@ -186,6 +206,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/mcp'
+    | '/admin/categories'
+    | '/admin/products'
     | '/demo/better-auth'
     | '/demo/drizzle'
     | '/demo/mcp-todos'
@@ -204,6 +226,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/mcp'
+    | '/admin/categories'
+    | '/admin/products'
     | '/demo/better-auth'
     | '/demo/drizzle'
     | '/demo/mcp-todos'
@@ -223,6 +247,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   McpRoute: typeof McpRoute
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
+  AdminProductsRoute: typeof AdminProductsRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   DemoDrizzleRoute: typeof DemoDrizzleRoute
   DemoMcpTodosRoute: typeof DemoMcpTodosRoute
@@ -317,6 +343,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoBetterAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/products': {
+      id: '/admin/products'
+      path: '/admin/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/admin/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/sentry/testing': {
       id: '/demo/sentry/testing'
       path: '/demo/sentry/testing'
@@ -359,6 +399,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   McpRoute: McpRoute,
+  AdminCategoriesRoute: AdminCategoriesRoute,
+  AdminProductsRoute: AdminProductsRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   DemoDrizzleRoute: DemoDrizzleRoute,
   DemoMcpTodosRoute: DemoMcpTodosRoute,
